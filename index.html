@@ -2,10 +2,171 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Pokemon Quiz Game</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battle Card</title>
+<style> 
+      body {
+      margin-left: 80px;
+     padding: 0;
+    background: #1a1a2e;
+     display: flex;
+     justify-content: space-around;
+      min-height: 100vh;
+    font-family: sans-serif;
+    display:flex;
+    flex-direction: column;
+    gap: 40px;
+    }
+
+    .battle-card {
+  background: #16213e;
+  border: 2px solid #534AB7;
+  border-radius: 16px;
+  padding: 24px;
+  width: 320px;
+  box-shadow: 0 8px 32px rgba(83, 74, 183, 0.3);
+ 
+}
+
+
+
+.battle-card#player-two{
+  margin-left: 900px;
+}
+
+.character-name {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.hp-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.hp-label {
+  color: #aaa;
+  font-size: 13px;
+  font-weight: bold;
+  min-width: 24px;
+}
+
+.hp-number {
+  color: #aaa;
+  font-size: 12px;
+  min-width: 56px;
+  text-align: right;
+}
+
+
+/* The grey track — full width container */
+.hp-track {
+  flex: 1;
+  height: 12px;
+  background: #333;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* The green fill — width % = current HP */
+.hp-fill {
+  height: 100%;
+  background: #1D9E75;
+  border-radius: 6px;
+  transition: width 0.5s ease-out;
+}
+
+/* Temporary HP color change for demonstration */
+.hp-fill {
+  background: #E24B4A; /* red at low HP */
+}
+
+.move-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.move-btn {
+  padding: 10px 8px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.1s, opacity 0.1s;
+}
+
+.move-btn:hover {
+  transform: scale(1.03);
+  opacity: 0.9;
+}
+
+.move-btn:active {
+  transform: scale(0.97);
+  
+}
+
+.move-btn.fire     { background: #E85D24; }
+.move-btn.water    { background: #185FA5; }
+.move-btn.electric { background: #BA7517; }
+.move-btn.normal   { background: #555570; } 
+
+
+
+
+</style> 
+
   </head>
   <body>
-    <h1>Pokemon Quiz Battle Game</h1>
-    <p>Coming soon...</p>
+        
+        <div class="battle-card" id="player-one">
+        
+        <!--Character info -->
+        <div class ="character-name">Player One</div>
+
+        <!-- Health Bar -->
+         <div class="hp-row">
+            <span class="hp-label">HP</span>
+            <div class="hp-track">
+                <div class="hp-fill" style="width: 10%;"></div>
+              </div>
+              <span class="hp-number">10 / 100</span>
+            
+        </div>
+
+        <!-- Move buttons -->
+         <div class="move-grid">
+          <button class="move-btn fire">Punch</button>
+          <button class="move-btn water">Kick</button>
+          <button class="move-btn electric">Heal</button>
+          <button class="move-btn normal">Block</button>
+        </div>
+        
+        </div>
+
+        <div class="battle-card" id="player-two">
+          <div class="character-name">Player Two</div>
+        
+        <div class="hp-row">
+          <span class="hp-label">HP</span>
+          <div class="hp-track"> 
+            <div class="hp-fill" style="width:25%;"></div>
+          </div>
+          <span class="hp-number">25 / 100</span>
+        </div>
+          <div class="move-grid">
+            <button class="move-btn fire">Punch</button>
+            <button class="move-btn water">Kick</button>
+            <button class="move-btn electric">Heal</button>
+            <button class="move-btn normal">Block</button>
+          </div>
+        </div>
+
   </body>
 </html>
