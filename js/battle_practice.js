@@ -23,30 +23,39 @@ function calcDamage(atk,pow,def){
     return Math.floor((atk*pow/def)*randomNumber)
     
 }
-while(enemy.hp !=0 || player.hp !=0){
+
+
+
+    while(enemy.hp !=0 || player.hp !=0){
 const player_damage =calcDamage(player.atk,move.pow, enemy.def)
 const enemy_damage = calcDamage(enemy.atk, move.pow, player.def)
-enemy.hp=Math.max(0, enemy.hp- player_damage)
-player.hp=Math.max(0, player.hp- enemy_damage)
 
+
+
+    
 console.log(player.name + " used " + move.name + "!")
 console.log(player.name + " dealt " + player_damage + " damage!")
+enemy.hp=Math.max(0, enemy.hp- player_damage)
 console.log(enemy.name + " HP: " + enemy.hp + " / 100")
+        if (enemy.hp <= 0) {
+  console.log(enemy.name + " fainted! You win!")
+    break;
+        }else{
+console.log("Battle continues...")
+        }
+        
+
 
 console.log(enemy.name + " used " +move.name + "!")
 console.log(enemy.name + " dealt " + enemy_damage + " damage!")
+player.hp=Math.max(0, player.hp- enemy_damage)
 console.log(player.name + " HP: " + enemy.hp + " / 100")
 
-if (player.hp !=0 || enemy.hp !=0){
-    console.log("Battle continues...")
-}
-    
-if (enemy.hp <= 0) {
-  console.log(enemy.name + " fainted! You win!")
-    break;
-}
-if (player.hp <= 0) {
-  console.log(player.name + " fainted! Enemy win!")
-    break;
-} 
-}
+ if (player.hp <=0){
+        console.log(player.name + " fainted! Enemy win!")
+            break;
+}else{
+console.log("Battle continues...")
+        }
+  
+    }
