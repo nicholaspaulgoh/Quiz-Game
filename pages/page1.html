@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Page 1 — Save Data</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1a1a2e;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      gap: 16px;
+    }
+    input {
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid #534AB7;
+      background: #222244;
+      color: white;
+      font-size: 15px;
+      width: 240px;
+    }
+    button {
+      padding: 10px 24px;
+      background: #534AB7;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    button:hover { opacity: 0.85; }
+    #status {
+      color: #1D9E75;
+      font-size: 14px;
+      min-height: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Character Creation (Page 1)</h2>
+  <input type="text" id="nameInput" placeholder="Enter your name" />
+  <button onclick="saveAndContinue()">Save & Go to Page 2</button>
+  <div id="status"></div>
+
+  <script>
+    function saveAndContinue() {
+      const name = document.getElementById('nameInput').value.trim()
+
+      if (!name) {
+        document.getElementById('status').textContent = 'Please enter a name first.'
+        document.getElementById('status').style.color = '#E24B4A'
+        return
+      }
+
+      // Build the player object — same shape as your real game
+      const player = {
+        name: name,
+        sprite: 'images/placeholder.png',  // real game: AI-generated sprite URL
+        moves: [],
+        hp: 100,
+        maxHP: 100,
+        streak: 0,
+        critPending: false,
+        storedBonus: 0
+      }
+
+      // Save to localStorage
+      localStorage.setItem('player1', JSON.stringify(player))
+
+      document.getElementById('status').textContent = 'Saved! Navigating...'
+      document.getElementById('status').style.color = '#1D9E75'
+
+      // Navigate to page 2
+      setTimeout(() => {
+        window.location.href = 'page2.html'
+      }, 800)
+    }
+  </script>
+
+</body>
+</html>
