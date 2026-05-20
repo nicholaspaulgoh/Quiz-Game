@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Grid Practice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1a1a2e;
+      color: white;
+      padding: 24px;
+    }
+
+    h3 {
+      color: #888;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 32px 0 8px;
+    }
+
+    /* ── EXAMPLE 1: Basic 2-column grid ── */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    /* ── EXAMPLE 2: Move button grid (exactly what your game uses) ── */
+    .move-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      max-width: 340px;
+    }
+
+    .move-btn {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .fire     { background: #E85D24; }
+    .water    { background: #185FA5; }
+    .electric { background: #BA7517; }
+    .normal   { background: #555570; }
+
+    /* ── EXAMPLE 3: Auto-fill (catalogue grid) ── */
+    .catalogue-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .move-card {
+      background: #222244;
+      border: 1px solid #534AB7;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    /* ── EXAMPLE 4: Full battle screen layout ── */
+    .battle-screen {
+      display: grid;
+      grid-template-rows: 55% 45%;
+      height: 320px;
+      gap: 10px;
+    }
+
+    .fighters-zone {
+      background: #222244;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    .controls-zone {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .moves-panel {
+      background: #222244;
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 10px;
+    }
+
+    .log-panel {
+      background: #222244;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 12px;
+      color: #888;
+      overflow-y: auto;
+    }
+
+    /* Shared box */
+    .box {
+      background: #534AB7;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h3>Example 1 — Basic 2-column grid</h3>
+  <div class="grid-2col">
+    <div class="box">Column 1</div>
+    <div class="box">Column 2</div>
+    <div class="box">Column 3</div>
+    <div class="box">Column 4</div>
+  </div>
+
+  <h3>Example 2 — Move button grid (your actual game UI)</h3>
+  <div class="move-grid">
+    <button class="move-btn fire">Ember</button>
+    <button class="move-btn water">Water Gun</button>
+    <button class="move-btn electric">Thunder</button>
+    <button class="move-btn normal">Tackle</button>
+  </div>
+
+  <h3>Example 3 — Auto-fill catalogue grid (resizes automatically)</h3>
+  <div class="catalogue-grid">
+    <div class="move-card">🔥 Ember<br><small>Fire • 60 power</small></div>
+    <div class="move-card">💧 Water Gun<br><small>Water • 65 power</small></div>
+    <div class="move-card">⚡ Thunder<br><small>Electric • 90 power</small></div>
+    <div class="move-card">👊 Tackle<br><small>Normal • 50 power</small></div>
+    <div class="move-card">🔥 Flamethrower<br><small>Fire • 95 power</small></div>
+    <div class="move-card">💧 Surf<br><small>Water • 90 power</small></div>
+  </div>
+
+  <h3>Example 4 — Full battle screen layout (fighters top, controls bottom)</h3>
+  <div class="battle-screen">
+
+    <div class="fighters-zone">
+      ← Fighter zone (55% height) — two characters face each other here →
+    </div>
+
+    <div class="controls-zone">
+      <div class="moves-panel">
+        <button class="move-btn fire" style="font-size:12px">Ember</button>
+        <button class="move-btn water" style="font-size:12px">Water Gun</button>
+        <button class="move-btn electric" style="font-size:12px">Thunder</button>
+        <button class="move-btn normal" style="font-size:12px">Tackle</button>
+      </div>
+      <div class="log-panel">
+        Battle Log<br><br>
+        Player used Ember!<br>
+        Dealt 34 damage.<br>
+        Enemy used Tackle!<br>
+        Dealt 18 damage.
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

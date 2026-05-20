@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flexbox Practice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1a1a2e;
+      color: white;
+      padding: 24px;
+    }
+
+    h3 {
+      color: #888;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 32px 0 8px;
+    }
+
+    /* ── EXAMPLE 1: Basic row ── */
+    .row {
+      display: flex;
+      background: #222244;
+      padding: 12px;
+      border-radius: 8px;
+      
+    }
+
+    /* ── EXAMPLE 2: Space between (HP bar row) ── */
+    .hp-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #222244;
+      padding: 12px 16px;
+      border-radius: 8px;
+      gap: 12px;
+    }
+
+    /* ── EXAMPLE 3: Centred content ── */
+    .centered {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #222244;
+      height: 80px;
+      border-radius: 8px;
+    }
+
+    /* ── EXAMPLE 4: Two fighters side by side ── */
+    .fighters {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex:1;
+    }
+
+    .fighter-card {
+      flex: 1;
+      background: #222244;
+      border: 2px solid #534AB7;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    /* ── EXAMPLE 5: Column direction ── */
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: #222244;
+      padding: 12px;
+      border-radius: 8px;
+      width: 200px;
+    }
+
+    /* Shared box style */
+    .box {
+      background: #534AB7;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .box.green  { background: #1D9E75; }
+    .box.amber  { background: #BA7517; }
+    .box.red    { background: #E24B4A; }
+
+    /* HP bar used in example 2 */
+    .hp-label  { font-size: 13px; color: #aaa; min-width: 24px; }
+    .hp-track  { flex: 1; height: 12px; background: #333; border-radius: 6px; overflow: hidden; }
+    .hp-fill   { height: 100%; background: #1D9E75; border-radius: 6px; width: 75%; }
+    .hp-number { font-size: 12px; color: #aaa; min-width: 56px; text-align: right; }
+  </style>
+</head>
+<body>
+
+  <h3>Example 1 — Basic row (default flex direction)</h3>
+  <div class="row">
+    <div class="box">Item 1</div>
+    <div class="box green">Item 2</div>
+    <div class="box amber">Item 3</div>
+  </div>
+
+  <h3>Example 2 — HP bar row (space-between + align-items)</h3>
+  <div class="hp-row">
+    <span class="hp-label">HP</span>
+    <div class="hp-track">
+      <div class="hp-fill"></div>
+    </div>
+    <span class="hp-number">75 / 100</span>
+  </div>
+
+  <h3>Example 3 — Perfectly centred (justify-content + align-items)</h3>
+  <div class="centered">
+    <div class="box">I am centred</div>
+  </div>
+
+  <h3>Example 4 — Two fighters side by side (flex: 1)</h3>
+  <div class="fighters">
+    <div class="fighter-card">
+      <div style="font-size: 32px">🧍</div>
+      <div>Player 1</div>
+    </div>
+    <div class="fighter-card">
+      <div style="font-size: 32px">🧍</div>
+      <div>Player 2</div>
+    </div>
+  </div>
+
+  <h3>Example 5 — Column direction (flex-direction: column)</h3>
+  <div class="column">
+    <div class="box">Move 1</div>
+    <div class="box green">Move 2</div>
+    <div class="box amber">Move 3</div>
+  </div>
+
+</body>
+</html>

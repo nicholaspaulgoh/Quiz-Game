@@ -85,3 +85,23 @@
 
 </body>
 </html>
+
+/*// Saved after character creation (Week 3)
+localStorage.setItem('player1', JSON.stringify({
+  name: 'Alex',
+  sprite: 'https://replicate-url/sprite.png',
+  moves: [],        // filled in after catalogue
+  hp: 200,
+  maxHP: 200,
+  streak: 0,
+  critPending: false,
+  storedBonus: 0
+}))
+
+// Updated after move selection (Week 4)
+const p = JSON.parse(localStorage.getItem('player1'))
+p.moves = [
+  { id:1, name:'Ember', power:60, type:'fire', animClass:'anim-fire' },
+  { id:3, name:'Thunder', power:90, type:'electric', animClass:'anim-electric' },
+  // ... up to 4
+]*/
