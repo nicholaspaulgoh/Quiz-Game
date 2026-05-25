@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Upload Test</title>
+</head>
+<body>
+
+  <input type="file" id="fileInput" accept="image/*" />
+  <img id="preview" width="200" />
+
+  <script>
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+
+      // Step 1 — get the file the user picked
+      const file = e.target.files[0]
+      console.log(file)          // look at this in DevTools console
+      console.log(file.name)     // "selfie.jpg"
+      console.log(file.size)     // size in bytes
+      console.log(file.type)     // "image/jpeg"
+
+      // Step 2 — create a FileReader to convert it
+      const reader = new FileReader()
+
+      // Step 3 — when it finishes reading, set the image src
+      reader.onload = function(event) {
+        const base64 = event.target.result
+        console.log(base64.substring(0, 50))  // first 50 chars of the base64 string
+        document.getElementById('preview').src = base64
+      }
+
+      // Step 4 — tell it to start reading
+      reader.readAsDataURL(file)
+    })
+  </script>
+
+</body>
+</html>

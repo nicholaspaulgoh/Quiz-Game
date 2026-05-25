@@ -1,177 +1,518 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Battle Card</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokemon Quiz Battle — Create Your Character</title>
+  <style>
 
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<style> 
-      body {
-      margin-left: 80px;
-     padding: 0;
-    background: #1a1a2e;
-     display: flex;
-     justify-content: space-around;
+    /* ── Base ── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #1a1a2e;
+      color: white;
       min-height: 100vh;
-    font-family: 'Press Start 2P', cursive;
-    display:flex;
-    flex-direction: column;
-    gap: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
     }
 
-    .battle-card {
-  background: #16213e;
-  border: 2px solid #534AB7;
-  border-radius: 16px;
-  padding: 24px;
-  width: 320px;
-  box-shadow: 0 8px 32px rgba(83, 74, 183, 0.3);
- 
+    /* ── Card ── */
+    .card {
+      background: #16213e;
+      border: 2px solid #534AB7;
+      border-radius: 16px;
+      padding: 32px;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── Title ── */
+    .title {
+      text-align: center;
+    }
+
+    .title h1 {
+      font-size: 22px;
+      color: white;
+      margin-bottom: 4px;
+    }
+
+    .title p {
+      font-size: 13px;
+      color: #888;
+    }
+
+    .player-badge {
+      display: inline-block;
+      background: #534AB7;
+      color: white;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── Upload zone ── */
+    .upload-zone {
+      border: 2px dashed #534AB7;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .upload-zone:hover {
+      border-color: #7B73D4;
+      background: #1e1e3a;
+    }
+
+    .upload-zone.has-image {
+      border-style: solid;
+      border-color: #1D9E75;
+      padding: 12px;
+    }
+
+    /* Hide the real file input — we style our own button */
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .upload-icon {
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    .upload-text {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 4px;
+    }
+
+    .upload-subtext {
+      font-size: 12px;
+      color: #555;
+    }
+
+    /* ── Preview image ── */
+    #previewImg {
+      width: 100%;
+      max-width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      display: none;       /* hidden until a photo is picked */
+      margin: 0 auto;
+      display: block;
+    }
+
+    .preview-container {
+      display: none;       /* whole container hidden until needed */
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .preview-container.visible {
+      display: flex;
+    }
+
+    .preview-label {
+      font-size: 12px;
+      color: #1D9E75;
+    }
+
+    .change-photo {
+      font-size: 12px;
+      color: #888;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #888;
+    }
+
+    .change-photo:hover { color: #aaa; }
+
+    /* ── Name input ── */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-group label {
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    .input-group input {
+      padding: 10px 14px;
+      background: #222244;
+      border: 1px solid #534AB7;
+      border-radius: 8px;
+      color: white;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: #7B73D4;
+    }
+
+    .input-group input::placeholder {
+      color: #555;
+    }
+
+    /* ── Button ── */
+    .btn-primary {
+      padding: 13px;
+      background: #534AB7;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      width: 100%;
+    }
+
+    .btn-primary:hover  { background: #6358C8; }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .btn-primary:disabled {
+      background: #333;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ── Status message ── */
+    #status {
+      text-align: center;
+      font-size: 13px;
+      min-height: 18px;
+    }
+
+    .status-error   { color: #E24B4A; }
+    .status-success { color: #1D9E75; }
+    .status-info    { color: #BA7517; }
+
+    /* ── Step indicator ── */
+    .steps {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .step {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #534AB7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      color: #534AB7;
+    }
+
+    .step.active {
+      background: #534AB7;
+      color: white;
+    }
+
+    .step-line {
+      width: 40px;
+      height: 2px;
+      background: #333;
+      align-self: center;
+    }
+
+    .back-button{
+margin-right:auto;
 }
 
+    #back-button{
+	display:none;
+      padding: 13px;
+      background: #534AB7;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      width: 100%;
+    }
 
+  </style>
+</head>
+<body>
 
-.battle-card#player-two{
-  margin-left: 900px;
-}
+  <div class="card">
 
-.character-name {
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 16px;
-}
+    <div class="back-button"><button id="back-button" onclick="goBack()">Back</button></div>
 
-.hp-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 20px;
-  
-}
+    <!-- Step indicator -->
+    <div class="steps">
+      <div class="step active">1</div>
+      <div class="step-line"></div>
+      <div class="step">2</div>
+      <div class="step-line"></div>
+      <div class="step">3</div>
+    </div>
 
-.hp-label {
-  color: #aaa;
-  font-size: 13px;
-  font-weight: bold;
-  min-width: 24px;
-}
+    <!-- Title -->
+    <div class="title">
+      <div class="player-badge" id="playerBadge">Player 1</div>
+      <h1>Create Your Character</h1>
+      <p>Upload a selfie to generate your pixel art fighter</p>
+    </div>
 
-.hp-number {
-  color: #aaa;
-  font-size: 12px;
-  min-width: 56px;
-  text-align: right;
-}
+    <!-- Upload zone (hidden once photo picked) -->
+    <div class="upload-zone" id="uploadZone">
+      <input
+        type="file"
+        id="fileInput"
+        accept="image/*"
+        onchange="handleFileSelect(event)"
+      />
+      <div class="upload-icon">📷</div>
+      <div class="upload-text">Click to upload your selfie</div>
+      <div class="upload-subtext">JPG, PNG, or WEBP • Max 5MB</div>
+    </div>
 
+    <!-- Preview (hidden until photo picked) -->
+    <div class="preview-container" id="previewContainer">
+      <div class="preview-label">✓ Photo ready</div>
+      <img id="previewImg" alt="Your photo preview" />
+      <button class="change-photo" onclick="resetPhoto()">Change photo</button>
+    </div>
 
-/* The grey track — full width container */
-.hp-track {
-  flex: 1;
-  height: 12px;
-  background: #333;
-  border-radius: 6px;
-  overflow: hidden;
-}
+    <!-- Name input -->
+    <div class="input-group">
+      <label for="nameInput">Your fighter name</label>
+      <input
+        type="text"
+        id="nameInput"
+        placeholder="Enter your name"
+        maxlength="20"
+      />
+    </div>
 
-/* The green fill — width % = current HP */
-.hp-fill {
-  height: 100%;
-  background: #1D9E75;
-  border-radius: 6px;
-  transition: width 0.5s ease-out;
-}
+    <!-- Submit button -->
+    <button class="btn-primary" id="continueBtn" onclick="handleContinue()">
+      Generate My Character →
+    </button>
 
-/* Temporary HP color change for demonstration */
-.hp-fill {
-  background: #E24B4A; /* red at low HP */
-}
+    <!-- Status message -->
+    <div id="status"></div>
 
-.move-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
+  </div>
 
-.move-btn {
-  padding: 10px 8px;
-  border: none;
-  border-radius: 8px;
-  font-size: 11px;
-  font-weight: bold;
-  cursor: pointer;
-  color: white;
-  transition: transform 0.1s, opacity 0.1s;
-  font-family: 'Press Start 2P', cursive;
-}
+  <script>
 
-.move-btn:hover {
-  transform: scale(1.03);
-  opacity: 0.9;
-}
+    // Stores the base64 image data once a file is picked
+    let selectedImageBase64 = null
 
-.move-btn:active {
-  transform: scale(0.97);
-  
-}
+    // ── Handle file selection ────────────────────────────────────────
+    function handleFileSelect(event) {
+      const file = event.target.files[0]
 
-.move-btn.fire     { background: #E85D24; }
-.move-btn.water    { background: #185FA5; }
-.move-btn.electric { background: #BA7517; }
-.move-btn.normal   { background: #555570; } 
+      // Guard — did they actually pick a file?
+      if (!file) return
 
+      // Guard — is it actually an image?
+      if (!file.type.startsWith('image/')) {
+        showStatus('Please upload an image file (JPG, PNG, or WEBP)', 'error')
+        return
+      }
 
+      // Guard — is it too large? (5MB limit)
+      const fiveMB = 5 * 1024 * 1024
+      if (file.size > fiveMB) {
+        showStatus('Image is too large. Please use a photo under 5MB.', 'error')
+        return
+      }
 
+      // read the file
+      const reader = new FileReader()
 
-</style> 
+      reader.onload = function(e) {
+        const base64 = e.target.result
 
-  </head>
-  <body>
-        
-        <div class="battle-card" id="player-one">
-        
-        <!--Character info -->
-        <div class ="character-name">Player One</div>
+        // Store it so we can use it later when calling the AI
+        selectedImageBase64 = base64
 
-        <!-- Health Bar -->
-         <div class="hp-row">
-            <span class="hp-label">HP</span>
-            <div class="hp-track">
-                <div class="hp-fill" style="width: 10%;"></div>
-              </div>
-              <span class="hp-number">10 / 100</span>
-            
+        // Show the preview
+        document.getElementById('previewImg').src = base64
+        document.getElementById('previewContainer').classList.add('visible')
+
+        // Hide the upload zone
+        document.getElementById('uploadZone').style.display = 'none'
+
+        showStatus('', '')   // clear any previous error
+      }
+
+      reader.readAsDataURL(file)
+    }
+
+    // ── Reset — let them pick a different photo ──────────────────────
+    function resetPhoto() {
+      selectedImageBase64 = null
+      document.getElementById('fileInput').value = ''
+      document.getElementById('previewContainer').classList.remove('visible')
+      document.getElementById('uploadZone').style.display = 'block'
+      document.getElementById('previewImg').src = ''
+      showStatus('', '')
+    }
+
+    // ── Handle the continue button ───────────────────────────────────
+    function handleContinue() {
+      const name = document.getElementById('nameInput').value.trim()
+
+      // Validate — photo first
+      if (!selectedImageBase64) {
+        showStatus('Please upload a photo first.', 'error')
+        return
+      }
+
+      // Validate — name required
+      if (!name) {
+        showStatus('Please enter your fighter name.', 'error')
+        return
+      }
+
+      // save to localStorage
+      const playerKey = getCurrentPlayerKey()   // 'player1' or 'player2'
+
+      const player = {
+        name: name,
+        photo: selectedImageBase64,    // original photo for sending to AI
+        sprite: null,                  // will be filled in Task 9 (AI generation)
+        moves: [],
+        hp: 200,
+        maxHP: 200,
+        streak: 0,
+        critPending: false,
+        storedBonus: 0
+      }
+
+      localStorage.setItem(playerKey, JSON.stringify(player))
+
+      showStatus('Saved! Moving to next step...', 'success')
+
+      // Navigate after a short delay
+      setTimeout(() => {
+        // Check if player 1 is done — if so, set up player 2
+        if (playerKey === 'player1') {
+          showHandoff()
+        } else {
+          // Both players done — go to catalogue
+          window.location.href = 'pages/catalogue.html'
+        }
+      }, 800)
+    }
+
+    // ── Handoff screen between Player 1 and Player 2 ────────────────
+    function showHandoff() {
+      document.querySelector('.card').innerHTML = `
+        <div style="text-align:center; padding: 20px; display:flex; flex-direction:column; gap:20px">
+          <div style="font-size:48px">✅</div>
+          <h2 style="color:#1D9E75">Player 1 Done!</h2>
+          <p style="color:#aaa; font-size:14px">
+            Hand the device to Player 2.<br>Don't let them see your moves!
+          </p>
+          <button class="btn-primary" onclick="setupPlayer2()">
+            I'm Player 2 — Start Setup →
+          </button>
         </div>
+      `
+    }
 
-        <!-- Move buttons -->
-         <div class="move-grid">
-          <button class="move-btn fire">Punch</button>
-          <button class="move-btn water">Kick</button>
-          <button class="move-btn electric">Heal</button>
-          <button class="move-btn normal">Block</button>
-        </div>
-        
-        </div>
+    function goBack(){
+    localStorage.setItem('setupPhase','player1');
+    window.location.reload();
+    }
 
-        <div class="battle-card" id="player-two">
-          <div class="character-name">Player Two</div>
-        
-        <div class="hp-row">
-          <span class="hp-label">HP</span>
-          <div class="hp-track"> 
-            <div class="hp-fill" style="width:25%;"></div>
-          </div>
-          <span class="hp-number">25 / 100</span>
-        </div>
-          <div class="move-grid">
-            <button class="move-btn fire">Punch</button>
-            <button class="move-btn water">Kick</button>
-            <button class="move-btn electric">Heal</button>
-            <button class="move-btn normal">Block</button>
-          </div>
-        </div>
+    function restorePlayerData(){
+      const playerKey= getCurrentPlayerKey();
+      
+      const player=JSON.parse(localStorage.getItem(playerKey));
+        if(player){
+        selectedImageBase64=player.photo;
+        document.getElementById('previewImg').src = selectedImageBase64;
+        document.getElementById('previewContainer').classList.add('visible');
+        document.getElementById('uploadZone').style.display = 'none';
+        document.getElementById('nameInput').value=player.name;
+        }
+      }
+    
 
-  </body>
+    function setupPlayer2() {
+      // Reload the page but now set up player 2
+      localStorage.setItem('setupPhase', 'player2')
+      window.location.reload()
+    }
+
+    // ── Work out which player is being set up ────────────────────────
+    function getCurrentPlayerKey() {
+      return localStorage.getItem('setupPhase') === 'player2' ? 'player2' : 'player1'
+    }
+
+    // ── Update badge and title for player 2 ─────────────────────────
+    function toPlayer2() {
+      const key = getCurrentPlayerKey()
+      if (key === 'player2') {
+        document.getElementById('playerBadge').textContent = 'Player 2'
+        document.getElementById('playerBadge').style.background = '#E24B4A'
+        document.getElementById('back-button').style.display="flex";
+      }
+    }
+
+    // ── Show a status message ────────────────────────────────────────
+    function showStatus(message, type) {
+      const el = document.getElementById('status')
+      el.textContent = message
+      el.className = type === 'error' ? 'status-error'
+                   : type === 'success' ? 'status-success'
+                   : type === 'info' ? 'status-info'
+                   : ''
+    }
+
+    // Run on page load
+    toPlayer2()
+    restorePlayerData()
+
+    history.pushState(null, '', window.location.href)
+    window.addEventListener('popstate',function(){
+      localStorage.setItem('setupPhase','player2')
+      window.location.reload()
+    })
+
+  </script>
+
+</body>
 </html>
