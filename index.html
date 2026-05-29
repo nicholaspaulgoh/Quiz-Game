@@ -118,7 +118,6 @@
       height: 200px;
       object-fit: cover;
       border-radius: 10px;
-      display: none;       /* hidden until a photo is picked */
       margin: 0 auto;
       display: block;
     }
@@ -332,6 +331,8 @@ margin-right:auto;
 
   </div>
 
+  <script src="js/config.js"></script>
+
   <script>
 
     // Stores the base64 image data once a file is picked
@@ -389,9 +390,140 @@ margin-right:auto;
       showStatus('', '')
     }
 
+    function compressImage(base64) {
+  return new Promise((resolve) => {
+    const img = new Image()
+
+    img.onload = function() {
+      // Create a canvas to redraw the image at smaller size
+      const canvas = document.createElement('canvas')
+      canvas.width  = 512
+      canvas.height = 512
+
+      const ctx = canvas.getContext('2d')
+
+      // Draw the image scaled down to 512x512
+      ctx.drawImage(img, 0, 0, 512, 512)
+
+      // Convert back to base64 at 60% quality
+      const compressed = canvas.toDataURL('image/jpeg', 0.6)
+      resolve(compressed)
+    }
+
+    img.src = base64
+  })
+}
+
+async function generateSprite(base64Photo) {
+  // Step 1 — compress the image first
+  showStatus('Compressing image...', 'info')
+  const compressed = await compressImage(base64Photo)
+
+  // Replicate needs the base64 WITHOUT the "data:image/jpeg;base64," prefix
+  // It only wants the raw base64 data
+  const base64Data = compressed.split(',')[1]
+
+  // Step 2 — send to Replicate to start the prediction
+  showStatus('Sending to AI...', 'info')
+
+  let predictionId
+
+  try {
+    const startResponse = await fetch(`${CONFIG.PROXY_URL}/predict`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        version: 'retro-diffusion/rd-fast',
+        input: {
+          prompt: 'portrait game character sprite, facing forward, Street Fighter style',
+          style: 'portrait',
+          width: 128,
+          height: 128,
+          remove_bg: true,
+          image: `data:image/jpeg;base64,${base64Data}`
+        }
+      })
+    })
+
+    if (!startResponse.ok) {
+      const err = await startResponse.json()
+      throw new Error('Failed to start: ' + (err.detail || startResponse.status))
+    }
+
+    const prediction = await startResponse.json()
+    predictionId = prediction.id
+    console.log('Prediction started, ID:', predictionId)
+
+  } catch (error) {
+    throw new Error('Could not connect to AI: ' + error.message)
+
+    // Optional: use placeholder and continue anyway during development
+    // Uncomment these lines if you want to skip the AI and test the rest of the game:
+    // const player = { name, photo: selectedImageBase64, sprite: 'images/placeholder-sprite.jpg', ... }
+    // localStorage.setItem(playerKey, JSON.stringify(player))
+    // showHandoff()
+
+  }
+
+  // Step 3 — poll until the result is ready
+  showStatus('Generating your sprite... (this takes 10–20 seconds)', 'info')
+
+  const spriteUrl = await pollForResult(predictionId)
+  return spriteUrl
+}
+
+async function pollForResult(predictionId) {
+  const maxAttempts = 60   // try for up to 60 seconds
+  let attempts = 0
+
+  while (attempts < maxAttempts) {
+    // Wait 2 seconds between each check
+    await wait(2000)
+    attempts++
+
+    try {
+  const response = await fetch(
+  `${CONFIG.PROXY_URL}/predict/${predictionId}`
+  // No headers needed — Worker handles auth
+)
+
+      const result = await response.json()
+      console.log('Poll attempt', attempts, '— status:', result.status)
+
+      if (result.status === 'succeeded') {
+        // result.output is an array — the image URL is the first item
+        return result.output[0]
+      }
+
+      if (result.status === 'failed') {
+        throw new Error('AI generation failed: ' + result.error)
+      }
+
+      // status is 'starting' or 'processing' — keep polling
+      showStatus(
+        `Generating your sprite... (${attempts * 2}s elapsed)`,
+        'info'
+      )
+
+    } catch (error) {
+      throw new Error('Polling error: ' + error.message)
+    }
+  }
+
+  throw new Error('Timed out — AI took too long to respond')
+}
+
+// Helper — pause for a number of milliseconds
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
     // ── Handle the continue button ───────────────────────────────────
-    function handleContinue() {
+    async function handleContinue() {
       const name = document.getElementById('nameInput').value.trim()
+       const btn  = document.getElementById('continueBtn')
 
       // Validate — photo first
       if (!selectedImageBase64) {
@@ -405,13 +537,22 @@ margin-right:auto;
         return
       }
 
+        // Disable button so they can't click twice
+        btn.disabled = true
+        btn.textContent = 'Generating...'
+
+        try {
+       // Generate the sprite
+        const spriteUrl = await generateSprite(selectedImageBase64)
+        console.log('Sprite URL:', spriteUrl)
+
       // save to localStorage
       const playerKey = getCurrentPlayerKey()   // 'player1' or 'player2'
 
       const player = {
         name: name,
         photo: selectedImageBase64,    // original photo for sending to AI
-        sprite: null,                  // will be filled in Task 9 (AI generation)
+        sprite: spriteUrl,                 
         moves: [],
         hp: 200,
         maxHP: 200,
@@ -421,6 +562,13 @@ margin-right:auto;
       }
 
       localStorage.setItem(playerKey, JSON.stringify(player))
+      localStorage.removeItem('editingPlayer')
+
+          showStatus('Character created!', 'success')
+           btn.textContent = 'Done!'
+
+          // Show the generated sprite briefly before navigating
+          showSpritePreview(spriteUrl, name)
 
       showStatus('Saved! Moving to next step...', 'success')
 
@@ -433,8 +581,32 @@ margin-right:auto;
           // Both players done — go to catalogue
           window.location.href = 'pages/catalogue.html'
         }
-      }, 800)
-    }
+      }, 2500)
+    }catch (error){
+       // Something went wrong — show error, re-enable button
+    console.error(error)
+    showStatus('Generation failed: ' + error.message + ' — try again', 'error')
+    btn.disabled = false
+    btn.textContent = 'Generate My Character →'
+  }
+}
+
+    function showSpritePreview(spriteUrl, name) {
+  const container = document.getElementById('previewContainer')
+
+  container.innerHTML = `
+    <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:10px">
+      <div style="font-size:12px; color:#1D9E75">✓ Your character is ready!</div>
+      <img
+        src="${spriteUrl}"
+        alt="Your pixel art sprite"
+        style="width:128px; height:128px; image-rendering:pixelated; border-radius:8px; border:2px solid #1D9E75"
+      />
+      <div style="font-size:16px; font-weight:bold; color:white">${name}</div>
+    </div>
+  `
+}
+
 
     // ── Handoff screen between Player 1 and Player 2 ────────────────
     function showHandoff() {
