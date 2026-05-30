@@ -248,6 +248,12 @@
       align-self: center;
     }
 
+    .step.completed {
+  background: #1D9E75;
+  border-color: #1D9E75;
+  color: white;
+}
+
     .back-button{
 margin-right:auto;
 }
@@ -539,12 +545,27 @@ function wait(ms) {
 
         // Disable button so they can't click twice
         btn.disabled = true
-        btn.textContent = 'Generating...'
+btn.textContent = 'Generating...'
 
-        try {
-       // Generate the sprite
-        const spriteUrl = await generateSprite(selectedImageBase64)
-        console.log('Sprite URL:', spriteUrl)
+try {
+  let spriteUrl
+
+  // Check if this player already has a sprite AND the photo hasn't changed
+  const existingPlayer = JSON.parse(localStorage.getItem(getCurrentPlayerKey()))
+  const photoChanged = !existingPlayer || existingPlayer.photo !== selectedImageBase64
+
+  if (!photoChanged && existingPlayer.sprite) {
+    // Reuse the existing sprite — no API call needed
+    console.log('Photo unchanged — reusing existing sprite')
+    spriteUrl = existingPlayer.sprite
+    showStatus('Using existing sprite...', 'info')
+    await wait(2000)   // small delay so it doesn't feel instant
+  } else {
+    // Photo is new — generate a fresh sprite
+    spriteUrl = await generateSprite(selectedImageBase64)
+  }
+
+  console.log('Sprite URL:', spriteUrl)
 
       // save to localStorage
       const playerKey = getCurrentPlayerKey()   // 'player1' or 'player2'
@@ -591,20 +612,19 @@ function wait(ms) {
   }
 }
 
-    function showSpritePreview(spriteUrl, name) {
-  const container = document.getElementById('previewContainer')
+  function showSpritePreview(spriteUrl, name) {
+    const container = document.getElementById('previewContainer')
 
-  container.innerHTML = `
-    <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:10px">
-      <div style="font-size:12px; color:#1D9E75">✓ Your character is ready!</div>
-      <img
-        src="${spriteUrl}"
-        alt="Your pixel art sprite"
-        style="width:128px; height:128px; image-rendering:pixelated; border-radius:8px; border:2px solid #1D9E75"
-      />
-      <div style="font-size:16px; font-weight:bold; color:white">${name}</div>
-    </div>
+    container.innerHTML = `
+      <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:10px">
+        <div style="font-size:12px; color:#1D9E75">✓ Your character is ready!</div>
+        <img src="${spriteUrl}" alt="Your pixel art sprite"
+            style="width:128px; height:128px; image-rendering:pixelated; border-radius:8px; border:2px solid #1D9E75"
+        />
+        <div style="font-size:16px; font-weight:bold; color:white">${name}</div>
+      </div>
   `
+  container.classList.add('visible')
 }
 
 
@@ -656,13 +676,27 @@ function wait(ms) {
 
     // ── Update badge and title for player 2 ─────────────────────────
     function toPlayer2() {
-      const key = getCurrentPlayerKey()
-      if (key === 'player2') {
-        document.getElementById('playerBadge').textContent = 'Player 2'
-        document.getElementById('playerBadge').style.background = '#E24B4A'
-        document.getElementById('back-button').style.display="flex";
-      }
-    }
+ const key = getCurrentPlayerKey()
+
+  // Update badge
+  const badge = document.getElementById('playerBadge')
+  if (key === 'player2') {
+    badge.textContent = 'Player 2'
+    badge.style.background = '#E24B4A'
+    document.getElementById('back-button').style.display = 'flex'
+  } else {
+    badge.textContent = 'Player 1'
+    badge.style.background = '#534AB7'
+  }
+
+  // Update step indicator — step 1 is always active on this page
+  // Step 2 activates when we reach catalogue, step 3 when battle starts
+  const steps = document.querySelectorAll('.step')
+  steps.forEach((step, i) => {
+    step.classList.remove('active')
+    if (i === 0) step.classList.add('active')
+  })
+}
 
     // ── Show a status message ────────────────────────────────────────
     function showStatus(message, type) {
@@ -683,6 +717,16 @@ function wait(ms) {
       localStorage.setItem('setupPhase','player2')
       window.location.reload()
     })
+
+    // Development helper — call clearAllData() in console to reset everything
+function clearAllData() {
+  localStorage.removeItem('player1')
+  localStorage.removeItem('player2')
+  localStorage.removeItem('setupPhase')
+  localStorage.removeItem('editingPlayer')
+  console.log('All player data cleared. Reloading...')
+  window.location.reload()
+}
 
   </script>
 
