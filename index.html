@@ -521,6 +521,17 @@ async function pollForResult(predictionId) {
   throw new Error('Timed out — AI took too long to respond')
 }
 
+async function urlToBase64(url) {
+  const response = await fetch(url)
+  const blob = await response.blob()
+  
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.readAsDataURL(blob)
+  })
+}
+
 // Helper — pause for a number of milliseconds
 function wait(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -561,8 +572,10 @@ try {
     showStatus('Using existing sprite...', 'info')
     await wait(2000)   // small delay so it doesn't feel instant
   } else {
-    // Photo is new — generate a fresh sprite
-    spriteUrl = await generateSprite(selectedImageBase64)
+    // save the actual image data as base64 — which lives in localStorage permanently and never expires.
+    const tempUrl = await generateSprite(selectedImageBase64)
+showStatus('Saving sprite...', 'info')
+spriteUrl = await urlToBase64(tempUrl)
   }
 
   console.log('Sprite URL:', spriteUrl)

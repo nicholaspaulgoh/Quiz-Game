@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Moves Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #1a1a2e; color: white; padding: 24px; }
+    .move { background: #222244; border-radius: 8px; padding: 12px; margin-bottom: 8px; }
+    .type-fire     { border-left: 4px solid #E85D24; }
+    .type-water    { border-left: 4px solid #185FA5; }
+    .type-electric { border-left: 4px solid #BA7517; }
+    .type-normal   { border-left: 4px solid #555570; }
+  </style>
+</head>
+<body>
+  <h2>All Moves</h2>
+  <div id="output"></div>
+
+  <script src="../js/moves.js"></script>
+  <script>
+    async function loadMoves() {
+      try {
+        const response = await fetch('../moves.json')
+        const data = await response.json()
+        const moves = data.moves
+
+        console.log('All moves:', moves)
+        console.log('Total moves:', moves.length)
+
+        // Display each move
+        const output = document.getElementById('output')
+
+        moves.forEach(move => {
+          const div = document.createElement('div')
+          div.className = `move type-${move.type}`
+          div.innerHTML = `
+            <strong>${move.name}</strong> 
+            (${move.type}) — Power: ${move.power} — 
+            Category: ${move.category}
+            ${move.effect ? `— Effect: ${move.effect}` : ''}
+          `
+          output.appendChild(div)
+        })
+
+        // Test all four functions
+const fireMoves = getMovesByType(moves, 'fire')
+console.log('Fire moves:', fireMoves)         // should be 3
+
+const oneMove = getMoveById(moves, 8)
+console.log('Move 8:', oneMove)               // should be Thunderbolt
+
+const colour = getTypeColour('water')
+console.log('Water colour:', colour)          // should be '#185FA5'
+
+      } catch (error) {
+        console.error('Failed to load moves:', error)
+      }
+    }
+
+    loadMoves()
+  </script>
+</body>
+</html>

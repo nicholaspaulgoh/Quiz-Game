@@ -1,0 +1,136 @@
+{
+  "moves": [
+    {
+      "id": 1,
+      "name": "Ember",
+      "power": 55,
+      "type": "fire",
+      "accuracy": 100,
+      "effect": null,
+      "animClass": "anim-fire",
+      "category": "science",
+      "description": "A weak but reliable flame attack."
+    },
+    {
+      "id": 2,
+      "name": "Flamethrower",
+      "power": 90,
+      "type": "fire",
+      "accuracy": 95,
+      "effect": "burn",
+      "animClass": "anim-fire",
+      "category": "science",
+      "description": "A powerful fire blast. May cause burn."
+    },
+    {
+      "id": 3,
+      "name": "Inferno",
+      "power": 110,
+      "type": "fire",
+      "accuracy": 90,
+      "effect": "burn",
+      "animClass": "anim-fire",
+      "category": "science",
+      "description": "Maximum fire damage. High risk, high reward."
+    },
+    {
+      "id": 4,
+      "name": "Water Gun",
+      "power": 55,
+      "type": "water",
+      "accuracy": 100,
+      "effect": null,
+      "animClass": "anim-water",
+      "category": "geography",
+      "description": "A steady stream of water. Never misses."
+    },
+    {
+      "id": 5,
+      "name": "Surf",
+      "power": 90,
+      "type": "water",
+      "accuracy": 95,
+      "effect": null,
+      "animClass": "anim-water",
+      "category": "geography",
+      "description": "A massive wave that crashes into the opponent."
+    },
+    {
+      "id": 6,
+      "name": "Hydro Pump",
+      "power": 110,
+      "type": "water",
+      "accuracy": 90,
+      "effect": null,
+      "animClass": "anim-water",
+      "category": "geography",
+      "description": "The strongest water move. Slightly unreliable."
+    },
+    {
+      "id": 7,
+      "name": "Thunder Shock",
+      "power": 55,
+      "type": "electric",
+      "accuracy": 100,
+      "effect": null,
+      "animClass": "anim-electric",
+      "category": "technology",
+      "description": "A small jolt of electricity. Always connects."
+    },
+    {
+      "id": 8,
+      "name": "Thunderbolt",
+      "power": 90,
+      "type": "electric",
+      "accuracy": 95,
+      "effect": "stun",
+      "animClass": "anim-electric",
+      "category": "technology",
+      "description": "A strong bolt. May stun the opponent."
+    },
+    {
+      "id": 9,
+      "name": "Thunder",
+      "power": 110,
+      "type": "electric",
+      "accuracy": 90,
+      "effect": "stun",
+      "animClass": "anim-electric",
+      "category": "technology",
+      "description": "Maximum electric power. Can stun on impact."
+    },
+    {
+      "id": 10,
+      "name": "Tackle",
+      "power": 50,
+      "type": "normal",
+      "accuracy": 100,
+      "effect": null,
+      "animClass": "anim-normal",
+      "category": "history",
+      "description": "A basic body slam. Reliable but weak."
+    },
+    {
+      "id": 11,
+      "name": "Slash",
+      "power": 80,
+      "type": "normal",
+      "accuracy": 100,
+      "effect": null,
+      "animClass": "anim-normal",
+      "category": "history",
+      "description": "A sharp cutting strike. High precision."
+    },
+    {
+      "id": 12,
+      "name": "Hyper Beam",
+      "power": 110,
+      "type": "normal",
+      "accuracy": 90,
+      "effect": null,
+      "animClass": "anim-normal",
+      "category": "history",
+      "description": "The strongest normal move. The best in class."
+    }
+  ]
+}
