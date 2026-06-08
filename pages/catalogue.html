@@ -3,129 +3,697 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Move Catalogue</title>
+  <title>Pokemon Quiz Battle — Choose Your Moves</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * { box-sizing: 
+      border-box; 
+      margin: 0; 
+      padding: 0; }
 
     body {
       font-family: Arial, sans-serif;
       background: #1a1a2e;
       color: white;
       min-height: 100vh;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 24px;
       gap: 20px;
     }
 
-    h1 { color: #534AB7; font-size: 24px; }
-    p  { color: #888; font-size: 14px; }
+    /* ── Step indicator ── */
 
-    .players {
+   .step-container {
       display: flex;
-      gap: 20px;
+      justify-content: flex-start;
+      width:700px;
+      gap:200px;
+    }
+
+      #backBtn{
+      padding: 13px;
+      background: #534AB7;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      
+      
+    }
+
+    .steps {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .step {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 2px solid #534AB7;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: bold; color: #534AB7;
+    }
+    .step.active   { background: #534AB7; color: white; }
+    .step.completed{ background: #1D9E75; border-color: #1D9E75; color: white; }
+    .step-line     { width: 40px; height: 2px; background: #333; align-self: center; }
+
+    /* ── Player badge ── */
+    .player-badge {
+      display: inline-block;
+      font-size: 11px; font-weight: bold;
+      padding: 3px 12px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .badge-p1 { background: #534AB7; color: white; }
+    .badge-p2 { background: #E24B4A; color: white; }
+
+    /* ── Header card ── */
+    .header-card {
+      background: #16213e;
+      border: 2px solid #534AB7;
+      border-radius: 16px;
+      padding: 20px 28px;
+      width: 100%; max-width: 720px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .player-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .player-sprite {
+      width: 64px; height: 64px;
+      border-radius: 8px;
+      border: 2px solid #534AB7;
+      background: #222244;
+      image-rendering: pixelated;
+      object-fit: contain;
+    }
+
+    .player-details h2 {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .player-details p {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .edit-btn {
+      background: none;
+      border: 1px solid #555;
+      color: #888;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: border-color 2s, color 2s;
+    }
+    .edit-btn:hover { border-color: #aaa; color: #ccc; }
+
+    /* ── Slot counter ── */
+    .slot-counter {
+      text-align: center;
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    .slot-counter span {
+      font-weight: bold;
+      color: #534AB7;
+      font-size: 18px;
+    }
+
+    .slots-display {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .slot {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      border: 2px dashed #333;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; color: #444;
+      transition: all 0.2s;
+    }
+
+    .slot.filled {
+      border-style: solid;
+      border-color: #534AB7;
+      background: #1e1e3a;
+      color: #534AB7;
+    }
+
+    /* ── Type filter tabs ── */
+    .type-filters {
+      display: flex;
+      gap: 8px;
       flex-wrap: wrap;
       justify-content: center;
     }
 
-    .player-card {
-      background: #16213e;
-      border: 2px solid #534AB7;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: center;
-      min-width: 160px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .player-card img {
-      width: 96px;
-      height: 96px;
-      image-rendering: pixelated;
-      border-radius: 8px;
-      border: 2px solid #534AB7;
-      background: #222244;
-    }
-
-    .player-name {
-      font-size: 16px;
+    .filter-btn {
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 2px solid;
+      font-size: 12px;
+      cursor: pointer;
+      background: transparent;
+      transition: background 0.15s, color 0.15s;
       font-weight: bold;
     }
 
-    .hp-bar-track {
+    .filter-btn.active,
+    .filter-btn:hover {
+      color: white !important;
+    }
+
+    .filter-all     { border-color: #534AB7; color: #534AB7; }
+    .filter-all.active, .filter-all:hover { background: #534AB7; }
+    .filter-fire    { border-color: #E85D24; color: #E85D24; }
+    .filter-fire.active, .filter-fire:hover { background: #E85D24; }
+    .filter-water   { border-color: #185FA5; color: #185FA5; }
+    .filter-water.active, .filter-water:hover { background: #185FA5; }
+    .filter-electric{ border-color: #BA7517; color: #BA7517; }
+    .filter-electric.active, .filter-electric:hover { background: #BA7517; }
+    .filter-normal  { border-color: #555570; color: #aaa; }
+    .filter-normal.active, .filter-normal:hover { background: #555570; }
+
+    /* ── Move grid ── */
+    .move-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
       width: 100%;
-      height: 8px;
+      max-width: 720px;
+    }
+
+    /* ── Move card ── */
+    .move-card {
+      background: #16213e;
+      border: 2px solid #333;
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s, background 0.15s;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+
+    .move-card:hover {
+      transform: translateY(-2px);
+      border-color: #555;
+    }
+
+    .move-card.selected {
+      border-color: #534AB7;
+      background: #1e1e3a;
+    }
+
+    .move-card.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Selected checkmark */
+    .move-card .check {
+      position: absolute;
+      top: 10px; right: 10px;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #534AB7;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+    .move-card.selected .check {
+      display: flex;
+    }
+
+    /* Type badge */
+    .type-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 20px;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-fire     { background: #E85D24; }
+    .badge-water    { background: #185FA5; }
+    .badge-electric { background: #BA7517; }
+    .badge-normal   { background: #555570; }
+
+    /* Move name */
+    .move-name {
+      font-size: 14px;
+      font-weight: bold;
+      color: white;
+      padding-right: 24px;
+    }
+
+    /* Power bar */
+    .power-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .power-label {
+      font-size: 10px;
+      color: #888;
+      min-width: 36px;
+    }
+
+    .power-track {
+      flex: 1;
+      height: 6px;
       background: #333;
-      border-radius: 4px;
+      border-radius: 3px;
       overflow: hidden;
     }
 
-    .hp-bar-fill {
+    .power-fill {
       height: 100%;
-      background: #1D9E75;
-      border-radius: 4px;
+      border-radius: 3px;
     }
 
-    .coming-soon {
-      background: #222244;
-      border: 1px dashed #534AB7;
-      border-radius: 12px;
-      padding: 20px 40px;
+    .power-fill.low    { background: #1D9E75; }
+    .power-fill.mid    { background: #BA7517; }
+    .power-fill.high   { background: #E24B4A; }
+
+    .power-number {
+      font-size: 10px;
+      color: #aaa;
+      min-width: 28px;
+      text-align: right;
+    }
+
+    /* Description */
+    .move-desc {
+      font-size: 11px;
+      color: #666;
+      line-height: 1.4;
+    }
+
+    /* Effect pill */
+    .effect-pill {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      background: #2a1a2a;
+      color: #cc88cc;
+      border: 1px solid #664466;
+    }
+
+    /* Category tag */
+    .category-tag {
+      font-size: 10px;
       color: #555;
-      font-size: 14px;
+    }
+
+    /* ── Confirm button ── */
+    .confirm-btn {
+      width: 100%;
+      max-width: 720px;
+      padding: 14px;
+      background: #534AB7;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .confirm-btn:hover  { background: #6358C8; }
+    .confirm-btn:active { transform: scale(0.98); }
+    .confirm-btn:disabled {
+      background: #333;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ── Status ── */
+    #status {
+      font-size: 13px;
+      min-height: 18px;
       text-align: center;
     }
+    .status-error   { color: #E24B4A; }
+    .status-success { color: #1D9E75; }
+    .status-info    { color: #BA7517; }
+
   </style>
 </head>
 <body>
 
-  <h1>⚔️ Move Catalogue</h1>
-  <p>Both characters are ready — pick your moves!</p>
+   
+  <!-- Step indicator -->
+  <div class="step-container">
+    <button id="backBtn" onclick="goBack()">Back</button>
+    <div class="steps">
+    <div class="step completed">1</div>
+    <div class="step-line"></div>
+    <div class="step active">2</div>
+    <div class="step-line"></div>
+    <div class="step">3</div>
+  </div>
+</div>
+  
 
-  <div class="players" id="playersDisplay"></div>
-
-  <div class="coming-soon">
-    Move selection coming in Task 12 →
+  <!-- Player header -->
+  <div class="header-card">
+    <div class="player-info">
+      <img id="playerSprite" class="player-sprite" src="" alt="Your sprite" />
+      <div class="player-details">
+        <div class="player-badge badge-p1" id="playerBadge">Player 1</div>
+        <h2 id="playerName">Loading...</h2>
+        <p>Pick exactly 4 moves to bring into battle</p>
+      </div>
+    </div>
+    <button class="edit-btn" id="editBtn" onclick="editCharacter()">
+      ✏️ Edit Character
+    </button>
   </div>
 
+  <!-- Slot counter -->
+  <div class="slot-counter">
+    <div>Moves selected: <span id="slotCount">0</span> / 4</div>
+    <div class="slots-display">
+      <div class="slot" id="slot0">1</div>
+      <div class="slot" id="slot1">2</div>
+      <div class="slot" id="slot2">3</div>
+      <div class="slot" id="slot3">4</div>
+    </div>
+  </div>
+
+  <!-- Type filter buttons -->
+  <div class="type-filters">
+    <button class="filter-btn filter-all active"
+      onclick="filterMoves('all', this)">All</button>
+    <button class="filter-btn filter-fire"
+      onclick="filterMoves('fire', this)">🔥 Fire</button>
+    <button class="filter-btn filter-water"
+      onclick="filterMoves('water', this)">💧 Water</button>
+    <button class="filter-btn filter-electric"
+      onclick="filterMoves('electric', this)">⚡ Electric</button>
+    <button class="filter-btn filter-normal"
+      onclick="filterMoves('normal', this)">👊 Normal</button>
+  </div>
+
+  <!-- Move grid -->
+  <div class="move-grid" id="moveGrid"></div>
+
+  <!-- Confirm button -->
+  <button class="confirm-btn" id="confirmBtn"
+    onclick="confirmMoves()" disabled>
+    Confirm Moves →
+  </button>
+
+  <!-- Status message -->
+  <div id="status"></div>
+
+  <script src="../js/moves.js"></script>
   <script>
-    // Load and display both players to confirm data carried over correctly
-    function displayPlayers() {
-      const container = document.getElementById('playersDisplay')
-      const keys = ['player1', 'player2']
 
-      keys.forEach((key, i) => { //for(int i; i<keys.length;i++)
-        const raw = localStorage.getItem(key) //remember localStorage only stores string like '{"name":"Pikachu","hp":100}'
-        if (!raw) return
+    // ── State ────────────────────────────────────────────────
+    let allMoves       = []
+    let selectedMoves  = []
+    let currentPlayer  = null
+    let currentFilter  = 'all'
 
-        const player = JSON.parse(raw) 
+    // ── On page load ─────────────────────────────────────────
+    async function init() {
+      // Load current player from localStorage
+      const playerKey = getCurrentPlayerKey()
+      const raw = localStorage.getItem(playerKey)
+
+      // Guard — if no player data, send back to setup
+      if (!raw) {
+        window.location.href = '../index.html'
+        return
+      }
+
+      currentPlayer = JSON.parse(raw)
+
+      // Update header with player info
+      document.getElementById('playerName').textContent = currentPlayer.name
+      document.getElementById('playerSprite').src = currentPlayer.sprite || ''
+
+      // Update badge for player 2
+      if (playerKey === 'player2') {
+        const badge = document.getElementById('playerBadge')
+        badge.textContent = 'Player 2'
+        badge.className = 'player-badge badge-p2'
+      }
+
+      // Restore previously selected moves if they had any
+      if (currentPlayer.moves && currentPlayer.moves.length > 0) {
+        selectedMoves = [...currentPlayer.moves]
+      }
+
+      // Load moves from moves.json
+      try {
+        allMoves = await loadAllMoves()
+        renderMoves(allMoves)
+        updateSlotDisplay()
+      } catch (error) {
+        showStatus('Failed to load moves — check moves.json exists', 'error')
+        console.error(error)
+      }
+    }
+
+    // ── Work out which player is picking moves ────────────────
+    function getCurrentPlayerKey() {
+      const editingPlayer = localStorage.getItem('editingPlayer')
+      if (editingPlayer) return editingPlayer
+
+      if(localStorage.getItem('setupPhase') === 'player1') {
+        return 'player1'
+      }
+
+      // Player 1 picks first, then player 2
+      const p1 = localStorage.getItem('player1')
+      const p1data = p1 ? JSON.parse(p1) : null
+      if (p1data && p1data.moves && p1data.moves.length === 4) {
+        return 'player2'
+      }
+      return 'player1'
+    }
+
+    //Render move cards
+    function renderMoves(moves) {
+      const grid = document.getElementById('moveGrid')
+      grid.innerHTML = ''
+
+      moves.forEach(move => {
+        const isSelected = selectedMoves.some(m => m.id === move.id)
+        const isDisabled = !isSelected && selectedMoves.length >= 4
 
         const card = document.createElement('div')
-        card.className = 'player-card'
+        card.className = `move-card${isSelected ? ' selected' : ''}${isDisabled ? ' disabled' : ''}`
+        card.onclick = () => toggleMove(move)
+
+        // Power bar tier
+        const powerTier = move.power <= 60 ? 'low' : move.power <= 90 ? 'mid' : 'high'
+        const powerPct  = Math.round((move.power / 110) * 100)
+
         card.innerHTML = `
-          <img
-            src="${player.sprite || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22/>'}"
-            alt="${player.name}'s sprite"
-            onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2296%22 height=%2296%22><rect width=%2296%22 height=%2296%22 fill=%22%23534AB7%22/><text x=%2248%22 y=%2256%22 font-size=%2240%22 text-anchor=%22middle%22 fill=%22white%22>?</text></svg>'"
-          />
-          <div class="player-name">${player.name}</div>
-          <div style="font-size:11px; color:#888">Player ${i + 1}</div>
-          <div class="hp-bar-track">
-            <div class="hp-bar-fill" style="width:100%"></div>
+          <div class="check">✓</div>
+          <span class="type-badge badge-${move.type}">${move.type}</span>
+          <div class="move-name">${move.name}</div>
+          <div class="power-row">
+            <span class="power-label">Power</span>
+            <div class="power-track">
+              <div class="power-fill ${powerTier}"
+                style="width:${powerPct}%"></div>
+            </div>
+            <span class="power-number">${move.power}</span>
           </div>
-          <div style="font-size:12px; color:#888">${player.hp} / ${player.maxHP} HP</div>
-          <div style="font-size:12px; color:#BA7517">Moves: ${player.moves.length} / 4</div>
+          <div class="move-desc">${move.description}</div>
+          ${move.effect
+            ? `<span class="effect-pill">✦ ${move.effect}</span>`
+            : ''}
+          <div class="category-tag">📚 ${move.category} questions</div>
         `
-        container.appendChild(card)
+
+        grid.appendChild(card)
       })
     }
 
-    displayPlayers()
+    // ── Toggle a move selected/unselected ────────────────────
+    function toggleMove(move) {
+      const alreadySelected = selectedMoves.some(m => m.id === move.id)
+
+      if (alreadySelected) {
+        // Deselect it
+        selectedMoves = selectedMoves.filter(m => m.id !== move.id)
+      } else {
+        // Guard — max 4
+        if (selectedMoves.length >= 4) {
+          showStatus('You can only pick 4 moves. Deselect one first.', 'error')
+          return
+        }
+        selectedMoves.push(move)
+      }
+
+      showStatus('', '')
+      updateSlotDisplay()
+
+      // Filter doesnt chnage when i select a card from the same filter
+      const movesToShow = currentFilter === 'all'
+        ? allMoves
+        : allMoves.filter(m => m.type === currentFilter)
+      renderMoves(movesToShow)
+    }
+
+    // ── Update slot counter display ───────────────────────────
+    function updateSlotDisplay() {
+      document.getElementById('slotCount').textContent = selectedMoves.length
+
+      // Update the 4 slot circles
+      for (let i = 0; i < 4; i++) {
+        const slot = document.getElementById('slot' + i)
+        if (i < selectedMoves.length) {
+          slot.classList.add('filled')
+          slot.textContent = '✓'
+        } else {
+          slot.classList.remove('filled')
+          slot.textContent = i + 1
+        }
+      }
+
+      // Enable confirm button only when exactly 4 selected
+      document.getElementById('confirmBtn').disabled = selectedMoves.length !== 4
+
+      // Update button text
+      if (selectedMoves.length === 4) {
+        document.getElementById('confirmBtn').textContent = 'Confirm Moves →'
+      } else {
+        document.getElementById('confirmBtn').textContent =
+          `Pick ${4 - selectedMoves.length} more move${4 - selectedMoves.length !== 1 ? 's' : ''}...`
+      }
+    }
+
+    // ── Filter by type ────────────────────────────────────────
+    function filterMoves(type, btn) {
+      currentFilter = type
+
+      // Update active filter button
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
+       btn.classList.add('active')
+
+      // Filter and re-render
+      const filtered = type === 'all' ? allMoves : allMoves.filter(m => m.type === type)
+
+      renderMoves(filtered)
+    }
+
+    // ── Confirm and save moves ────────────────────────────────
+    function confirmMoves() {
+      if (selectedMoves.length !== 4) {
+        showStatus('Please select exactly 4 moves.', 'error')
+        return
+      }
+
+      const playerKey = getCurrentPlayerKey()
+
+      // Load → update moves → save back (the pattern from Week 2)
+      const player = JSON.parse(localStorage.getItem(playerKey))
+      player.moves = selectedMoves
+      localStorage.setItem(playerKey, JSON.stringify(player))
+      localStorage.removeItem('editingPlayer')
+
+      showStatus('Moves saved!', 'success')
+
+      setTimeout(() => {
+        // Player 1 done — show handoff for Player 2
+        if (playerKey === 'player1') {
+          showHandoff()
+        } else {
+          // Both players done — go to battle
+          window.location.href = 'battle.html'
+        }
+      }, 800)
+    }
+
+    // ── Handoff between players ───────────────────────────────
+    function showHandoff() {
+      document.body.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;
+          justify-content:center;min-height:100vh;gap:20px;padding:24px;
+          font-family:Arial,sans-serif;background:#1a1a2e;color:white">
+          <div style="font-size:48px">✅</div>
+          <h2 style="color:#1D9E75;font-size:20px">Player 1 Ready!</h2>
+          <p style="color:#888;font-size:14px;text-align:center">
+            Hand the device to Player 2.<br>Don't let them see your moves!
+          </p>
+          <button
+            onclick="startPlayer2()"
+            style="padding:14px 32px;background:#E24B4A;color:white;
+            border:none;border-radius:10px;font-size:16px;
+            font-weight:bold;cursor:pointer">
+            I'm Player 2 — Choose My Moves →
+          </button>
+        </div>
+      `
+    }
+
+    function goBack(){
+      localStorage.setItem('setupPhase', 'player1')
+      window.location.reload()
+    }
+
+    function startPlayer2() {
+      localStorage.setItem('setupPhase', 'player2')
+      window.location.reload()
+    }
+
+    // ── Edit character ────────────────────────────────────────
+    function editCharacter() {
+      const playerKey = getCurrentPlayerKey()
+      localStorage.setItem('editingPlayer', playerKey)
+      window.location.href = '../index.html'
+    }
+
+    // ── Status message ────────────────────────────────────────
+    function showStatus(message, type) {
+      const el = document.getElementById('status')
+      el.textContent = message
+      el.className = type === 'error'   ? 'status-error'
+                   : type === 'success' ? 'status-success'
+                   : type === 'info'    ? 'status-info'
+                   : ''
+    }
+
+    // ── Start ─────────────────────────────────────────────────
+    init()
+
   </script>
 
 </body>
