@@ -61,6 +61,9 @@
   <div id="log">Click a button to fetch a question</div>
   <div id="output"></div>
 
+  <div><button onclick="auditQuestions()">Audit Questions</button></div>
+  <div id="audit"></div>
+
   <script src="js/questions.js"></script>
   <script>
 
@@ -94,6 +97,38 @@
         log.textContent = 'Error: ' + error.message
         console.error(error)
       }
+    }
+
+    async function auditQuestions(){
+        const response = await fetch('questions.json')
+        const data = await response.json()
+        const questions = data.questions
+
+        const categories = ['science', 'geography', 'technology', 'history']
+        const audit = document.getElementById('audit')
+
+        let html = '<div style="background:#222244;border-radius:8px;padding:16px;margin-top:8px">'
+        html += '<strong>Question bank audit:</strong><br><br>'
+
+        let allGood = true
+
+        categories.forEach(cat => {
+            const count =questions.filter(q => q.category ===cat).length
+        
+
+        const status = count >= 6 ? '✅' : '⚠️'
+        if (count < 6) allGood = false
+
+        html += `${status} ${cat}: ${count} questions<br>`
+    })
+
+        html += `<br><strong>Total: ${questions.length} questions</strong>`
+        html += allGood? '<br><span style="color:#1D9E75">All good — ready to use!</span>'
+         : '<br><span style="color:#E24B4A">Some categories have fewer than 6 questions — add more.</span>'
+
+        html += '</div>'
+
+  audit.innerHTML = html
     }
 
   </script>

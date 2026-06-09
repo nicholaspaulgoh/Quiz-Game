@@ -231,6 +231,120 @@
       "options": ["A: USA", "B: UK", "C: New Zealand", "D: Australia"],
       "correct": "C",
       "category": "history"
+    },
+    {
+  "id": 33,
+  "text": "What is the chemical formula for water?",
+  "options": ["A: CO2", "B: H2O", "C: O2", "D: H2"],
+  "correct": "B",
+  "category": "science"
+    },
+    {
+  "id": 34,
+  "text": "Which organ pumps blood throughout the body?",
+  "options": ["A: Liver", "B: Brain", "C: Heart", "D: Lung"],
+  "correct": "C",
+  "category": "science"
+    },
+    {
+  "id": 35,
+  "text": "What force keeps planets orbiting the Sun?",
+  "options": ["A: Magnetism", "B: Friction", "C: Gravity", "D: Pressure"],
+  "correct": "C",
+  "category": "science"
+    },
+    {
+  "id": 36,
+  "text": "Which blood type is known as the universal donor?",
+  "options": ["A: O-", "B: AB+", "C: A+", "D: B-"],
+  "correct": "A",
+  "category": "science"
+    },
+    {
+  "id": 37,
+  "text": "Which desert is the largest hot desert in the world?",
+  "options": ["A: Gobi", "B: Sahara", "C: Arabian", "D: Kalahari"],
+  "correct": "B",
+  "category": "geography"
+    },
+    {
+  "id": 38,
+  "text": "Which country has the largest population?",
+  "options": ["A: India", "B: China", "C: USA", "D: Indonesia"],
+  "correct": "A",
+  "category": "geography"
+    },
+    {
+  "id": 39,
+  "text": "What is the capital of Canada?",
+  "options": ["A: Toronto", "B: Vancouver", "C: Ottawa", "D: Montreal"],
+  "correct": "C",
+  "category": "geography"
+    },
+    {
+  "id": 40,
+  "text": "Which continent is Egypt located in?",
+  "options": ["A: Europe", "B: Asia", "C: Africa", "D: South America"],
+  "correct": "C",
+  "category": "geography"
+    },
+
+    {
+  "id": 41,
+  "text": "What does RAM stand for?",
+  "options": ["A: Random Access Memory", "B: Read Access Memory", "C: Rapid Access Machine", "D: Random Active Memory"],
+  "correct": "A",
+  "category": "technology"
+    },
+    {
+  "id": 42,
+  "text": "Which company developed the Windows operating system?",
+  "options": ["A: Apple", "B: Google", "C: Microsoft", "D: IBM"],
+  "correct": "C",
+  "category": "technology"
+    },
+    {
+  "id": 43,
+  "text": "What does URL stand for?",
+  "options": ["A: Universal Resource Locator", "B: Uniform Resource Locator", "C: Unified Resource Link", "D: Uniform Retrieval Link"],
+  "correct": "B",
+  "category": "technology"
+    },
+    {
+  "id": 44,
+  "text": "Which programming language is primarily used for styling web pages?",
+  "options": ["A: HTML", "B: Java", "C: CSS", "D: Python"],
+  "correct": "C",
+  "category": "technology"
+    },
+
+    {
+  "id": 45,
+  "text": "Who was the first President of the United States?",
+  "options": ["A: Thomas Jefferson", "B: Abraham Lincoln", "C: George Washington", "D: John Adams"],
+  "correct": "C",
+  "category": "history"
+    },
+    {
+  "id": 46,
+  "text": "Which civilization built Machu Picchu?",
+  "options": ["A: Maya", "B: Aztec", "C: Roman", "D: Inca"],
+  "correct": "D",
+  "category": "history"
+    },
+    {
+  "id": 47,
+  "text": "What year did Christopher Columbus reach the Americas?",
+  "options": ["A: 1492", "B: 1502", "C: 1485", "D: 1510"],
+  "correct": "A",
+  "category": "history"
+    },
+    {
+  "id": 48,
+  "text": "Which war was fought between the North and South regions of the United States?",
+  "options": ["A: World War I", "B: American Civil War", "C: Revolutionary War", "D: War of 1812"],
+  "correct": "B",
+  "category": "history"
     }
   ]
 }
