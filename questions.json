@@ -1,0 +1,236 @@
+{
+  "questions": [
+
+    
+    {
+      "id": 1,
+      "text": "What is the chemical symbol for Gold?",
+      "options": ["A: Fe", "B: Au", "C: Ag", "D: Pb"],
+      "correct": "B",
+      "category": "science"
+    },
+    {
+      "id": 2,
+      "text": "How many bones are in the adult human body?",
+      "options": ["A: 186", "B: 213", "C: 206", "D: 198"],
+      "correct": "C",
+      "category": "science"
+    },
+    {
+      "id": 3,
+      "text": "What planet is known as the Red Planet?",
+      "options": ["A: Venus", "B: Jupiter", "C: Saturn", "D: Mars"],
+      "correct": "D",
+      "category": "science"
+    },
+    {
+      "id": 4,
+      "text": "What is the speed of light in km/s (approx)?",
+      "options": ["A: 200,000", "B: 300,000", "C: 150,000", "D: 400,000"],
+      "correct": "B",
+      "category": "science"
+    },
+    {
+      "id": 5,
+      "text": "What gas do plants absorb during photosynthesis?",
+      "options": ["A: Oxygen", "B: Nitrogen", "C: Carbon Dioxide", "D: Hydrogen"],
+      "correct": "C",
+      "category": "science"
+    },
+    {
+      "id": 6,
+      "text": "What is the hardest natural substance on Earth?",
+      "options": ["A: Gold", "B: Iron", "C: Diamond", "D: Quartz"],
+      "correct": "C",
+      "category": "science"
+    },
+    {
+      "id": 7,
+      "text": "How many chromosomes does a human cell normally have?",
+      "options": ["A: 23", "B: 48", "C: 46", "D: 32"],
+      "correct": "C",
+      "category": "science"
+    },
+    {
+      "id": 8,
+      "text": "What is the most abundant gas in Earth's atmosphere?",
+      "options": ["A: Oxygen", "B: Carbon Dioxide", "C: Argon", "D: Nitrogen"],
+      "correct": "D",
+      "category": "science"
+    },
+
+    
+    {
+      "id": 9,
+      "text": "What is the capital city of Australia?",
+      "options": ["A: Sydney", "B: Melbourne", "C: Canberra", "D: Brisbane"],
+      "correct": "C",
+      "category": "geography"
+    },
+    {
+      "id": 10,
+      "text": "Which is the longest river in the world?",
+      "options": ["A: Amazon", "B: Yangtze", "C: Mississippi", "D: Nile"],
+      "correct": "D",
+      "category": "geography"
+    },
+    {
+      "id": 11,
+      "text": "How many countries are in Africa?",
+      "options": ["A: 44", "B: 54", "C: 62", "D: 48"],
+      "correct": "B",
+      "category": "geography"
+    },
+    {
+      "id": 12,
+      "text": "What is the smallest country in the world?",
+      "options": ["A: Monaco", "B: San Marino", "C: Vatican City", "D: Liechtenstein"],
+      "correct": "C",
+      "category": "geography"
+    },
+    {
+      "id": 13,
+      "text": "Which ocean is the largest?",
+      "options": ["A: Atlantic", "B: Indian", "C: Arctic", "D: Pacific"],
+      "correct": "D",
+      "category": "geography"
+    },
+    {
+      "id": 14,
+      "text": "What country has the most natural lakes?",
+      "options": ["A: Russia", "B: USA", "C: Canada", "D: Finland"],
+      "correct": "C",
+      "category": "geography"
+    },
+    {
+      "id": 15,
+      "text": "What is the capital of Japan?",
+      "options": ["A: Osaka", "B: Kyoto", "C: Tokyo", "D: Hiroshima"],
+      "correct": "C",
+      "category": "geography"
+    },
+    {
+      "id": 16,
+      "text": "Which mountain is the tallest in the world?",
+      "options": ["A: K2", "B: Kangchenjunga", "C: Lhotse", "D: Mount Everest"],
+      "correct": "D",
+      "category": "geography"
+    },
+
+    
+    {
+      "id": 17,
+      "text": "What does CPU stand for?",
+      "options": ["A: Central Process Unit", "B: Central Processing Unit", "C: Computer Processing Unit", "D: Core Processing Unit"],
+      "correct": "B",
+      "category": "technology"
+    },
+    {
+      "id": 18,
+      "text": "What year was the first iPhone released?",
+      "options": ["A: 2005", "B: 2008", "C: 2007", "D: 2006"],
+      "correct": "C",
+      "category": "technology"
+    },
+    {
+      "id": 19,
+      "text": "What does HTML stand for?",
+      "options": ["A: HyperText Markup Language", "B: High Transfer Markup Language", "C: HyperText Media Language", "D: Home Tool Markup Language"],
+      "correct": "A",
+      "category": "technology"
+    },
+    {
+      "id": 20,
+      "text": "How many bits are in one byte?",
+      "options": ["A: 4", "B: 16", "C: 8", "D: 32"],
+      "correct": "C",
+      "category": "technology"
+    },
+    {
+      "id": 21,
+      "text": "What company created the Python programming language?",
+      "options": ["A: Google", "B: Microsoft", "C: Apple", "D: None — it was created by Guido van Rossum"],
+      "correct": "D",
+      "category": "technology"
+    },
+    {
+      "id": 22,
+      "text": "What does GPU stand for?",
+      "options": ["A: General Processing Unit", "B: Graphical Power Unit", "C: Graphics Processing Unit", "D: Global Processing Unit"],
+      "correct": "C",
+      "category": "technology"
+    },
+    {
+      "id": 23,
+      "text": "What is the most visited website in the world?",
+      "options": ["A: Facebook", "B: YouTube", "C: Amazon", "D: Google"],
+      "correct": "D",
+      "category": "technology"
+    },
+    {
+      "id": 24,
+      "text": "In what decade was the World Wide Web invented?",
+      "options": ["A: 1970s", "B: 1980s", "C: 1990s", "D: 2000s"],
+      "correct": "B",
+      "category": "technology"
+    },
+
+    
+    {
+      "id": 25,
+      "text": "In what year did World War 2 end?",
+      "options": ["A: 1943", "B: 1944", "C: 1946", "D: 1945"],
+      "correct": "D",
+      "category": "history"
+    },
+    {
+      "id": 26,
+      "text": "Who was the first person to walk on the moon?",
+      "options": ["A: Buzz Aldrin", "B: Yuri Gagarin", "C: Neil Armstrong", "D: John Glenn"],
+      "correct": "C",
+      "category": "history"
+    },
+    {
+      "id": 27,
+      "text": "Which ancient wonder was located in Alexandria?",
+      "options": ["A: Colossus of Rhodes", "B: Lighthouse of Alexandria", "C: Hanging Gardens", "D: Temple of Artemis"],
+      "correct": "B",
+      "category": "history"
+    },
+    {
+      "id": 28,
+      "text": "What year did the Berlin Wall fall?",
+      "options": ["A: 1987", "B: 1991", "C: 1989", "D: 1993"],
+      "correct": "C",
+      "category": "history"
+    },
+    {
+      "id": 29,
+      "text": "Who painted the Mona Lisa?",
+      "options": ["A: Michelangelo", "B: Raphael", "C: Donatello", "D: Leonardo da Vinci"],
+      "correct": "D",
+      "category": "history"
+    },
+    {
+      "id": 30,
+      "text": "What empire was Julius Caesar a part of?",
+      "options": ["A: Greek", "B: Ottoman", "C: Roman", "D: Byzantine"],
+      "correct": "C",
+      "category": "history"
+    },
+    {
+      "id": 31,
+      "text": "In what year did the Titanic sink?",
+      "options": ["A: 1910", "B: 1912", "C: 1915", "D: 1908"],
+      "correct": "B",
+      "category": "history"
+    },
+    {
+      "id": 32,
+      "text": "Which country was the first to give women the right to vote?",
+      "options": ["A: USA", "B: UK", "C: New Zealand", "D: Australia"],
+      "correct": "C",
+      "category": "history"
+    }
+  ]
+}
