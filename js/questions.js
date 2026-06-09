@@ -79,12 +79,23 @@ async function getTriviaQuestion(category){
     const raw = data.results[random]
 
     const allAnswers = [...raw.incorrect_answers, raw.correct_answer].map(decodeHTML)
+
+    console.log("allAnswers:", allAnswers)
+    console.log("Array?", Array.isArray(allAnswers))
+
     const shuffled= shuffleArray(allAnswers)
+
+    console.log("shuffled:", shuffled)
+    console.log("raw.correct_answer:", raw.correct_answer)
 
     const labels =['A', 'B', 'C', 'D']
     const options = shuffled.map((ans,i) => `${labels[i]} : ${ans}`)
 
-    const correctIndex = shuffled.findIndex(ans => ans.trim() === decodeHTML(raw.correct_answer.trim()))
+    const correctIndex = shuffled.findIndex(ans => decodeHTML(ans.trim()) === decodeHTML(raw.correct_answer.trim()))
+    if(correctIndex === -1){
+        throw new Error('Correct answer not found in options')
+    }
+
     const correct = labels[correctIndex]
 
     return {
@@ -106,7 +117,7 @@ function shuffleArray(array){
     //Fisher-Yates Shuffle
     for(let i =arry.length -1; i>0 ;i--){
         const j = Math.floor(Math.random() * (i+1));
-        [arry[i],arry[j]] = arry[j],arry[i]
+        [arry[i],arry[j]] = [arry[j],arry[i]]
     }
     return arry;
 
