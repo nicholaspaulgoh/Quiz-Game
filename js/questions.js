@@ -46,6 +46,7 @@ async function getCustomQuestion(category){
     if(filtered.length ===0){
         throw new Error('No questions found for category: ' + category)
     }
+
     const random= Math.floor(Math.random() * filtered.length)
     return filtered[random]
 }catch(error){
@@ -56,7 +57,7 @@ async function getCustomQuestion(category){
         text: 'What does HTML stand for?',
         category:'technology',
         options: ['A: HyperText Markup Language', 'B: High Transfer Markup Language', 'C: HyperText Media Language', 'D: Home Tool Markup Language'],
-        answer: 'A: HyperText Markup Language'
+        correct: 'A'
     }
 }
 }//end getCustomQuestion
